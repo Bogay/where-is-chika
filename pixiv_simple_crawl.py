@@ -46,7 +46,7 @@ def crawl_illust(base_dir, illust_id):
 
     if target_img:
         target_img = target_img['src']
-        img_title = '%s_%s.jpg' % (illust_id, soup.find('meta', property='og:title')['content'][:-7].replace('/', '_'))
+        img_title = illust_id + '.jpg'
 
         if os.path.isfile(img_title):
             print('%s exist, skip.' % (img_title))
