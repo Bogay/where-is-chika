@@ -16,9 +16,9 @@ if __name__ == '__main__':
     print(h)
     r = []
 
-    for chika in chikas:
-        c = compare(h, chika['hash'])
+    for hash_val, illust_id in chikas.items():
+        c = compare(h, int(hash_val))
         if c:
-            r.append(chika['illust_ids'])
+            r.extend(illust_id)
 
-    print(r)
+    print(*r)
