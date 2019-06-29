@@ -7,8 +7,7 @@ from bs4 import BeautifulSoup as bs
 
 # return illust IDs [list]
 def query_page(key_word, page_idx):
-    init_url = 'https://www.pixiv.net/search.php?s_mode=s_tag&word={}&p={}'
-    url = init_url.format(key_word, page_idx)
+    url = f'https://www.pixiv.net/search.php?s_mode=s_tag&word={key_word}&p={page_idx}'
 
     resp = rq.get(url)
     soup = bs(resp.text, 'lxml')
@@ -35,9 +34,7 @@ def query_keyword(key_word):
     return ret
 
 def crawl_illust(base_dir, illust_id):
-    base_url = 'https://www.pixiv.net/member_illust.php?mode=medium&illust_id='
-
-    target = base_url + illust_id
+    target = f'https://www.pixiv.net/member_illust.php?mode=medium&illust_id={illust_id}'
     resp = rq.get(target)
     soup = bs(resp.text, 'lxml')
 
@@ -49,15 +46,17 @@ def crawl_illust(base_dir, illust_id):
         img_title = illust_id + '.jpg'
 
         if os.path.isfile(img_title):
-            print('%s exist, skip.' % (img_title))
+            print(f'{img_title} exist, skip.')
             return
 
-        print('download %s' % (img_title))
+        print(f'download {img_title}')
 
         resp = rq.get(target_img, headers = { 'Referer': target })
         if resp.status_code == 200:
             with open(base_dir + img_title, 'wb+') as f:
                 f.writelines(resp)
+        else:
+            print(f'download {illust_id} fail!')
         
 if __name__ == '__main__':
     ill_ids = set()
