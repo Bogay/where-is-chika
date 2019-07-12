@@ -5,3 +5,4 @@ chika/
 *.pyc
 
 chikas.json
+.config.json
